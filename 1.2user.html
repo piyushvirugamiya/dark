@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiceHub | Order Food</title>
+    <style>
+        /* ========== All previous styles remain unchanged ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFF9F2 0%, #FFFAF0 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2D2D2D;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(255, 107, 107, 0.1);
+            overflow: hidden;
+            border: 1px solid #FFEDE5;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 25px 25px;
+            opacity: 0.3;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 400;
+            color: #FFE5D9;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .admin-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .cart-indicator {
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-indicator:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #FFD166;
+            color: #2D2D2D;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 4px 12px rgba(255, 209, 102, 0.4);
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .cart-count.bounce {
+            animation: bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.4); }
+            50% { transform: scale(0.9); }
+            70% { transform: scale(1.1); }
+        }
+
+        /* Tabs Styles */
+        .tabs {
+            display: flex;
+            background: linear-gradient(90deg, #FFF5EB 0%, #FFEFE2 100%);
+            border-bottom: 2px solid #FFE5D9;
+            padding: 0 40px;
+        }
+
+        .tab-btn {
+            padding: 20px 30px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B5A2B;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tab-btn i {
+            font-size: 1.2em;
+            color: #FF6B35;
+            transition: transform 0.3s ease;
+        }
+
+        .tab-btn:hover i {
+            transform: translateY(-2px);
+        }
+
+        .tab-btn:hover {
+            color: #FF6B35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #FF6B35;
+            background: white;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #FF6B35 0%, #FF8E53 100%);
+            border-radius: 4px 4px 0 0;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Tab Content Styles */
+        .tab-content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.4s ease-out;
+            background: #FFFCF9;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #2D2D2D;
+            margin-bottom: 10px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #FF6B35 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            color: #8B5A2B;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Food Categories */
+        .food-categories {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            padding: 15px 5px;
+        }
+
+        .category-btn {
+            padding: 14px 28px;
+            background: white;
+            border: 2px solid #FFE5D9;
+            border-radius: 50px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #8B5A2B;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(255, 229, 217, 0.3);
+        }
+
+        .category-btn i {
+            font-size: 1.2em;
+            color: #FF6B35;
+            transition: transform 0.3s ease;
+        }
+
+        .category-btn:hover {
+            border-color: #FF6B35;
+            color: #FF6B35;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .category-btn:hover i {
+            transform: scale(1.2);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            color: white;
+            border-color: #FF6B35;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .category-btn.active i {
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Food Grid */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #FFE5D9;
+            position: relative;
+        }
+
+        .food-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(255, 107, 53, 0.15);
+            border-color: #FF8E53;
+        }
+
+        .food-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #f8f8f8;
+        }
+
+        .food-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .food-card:hover .food-img img {
+            transform: scale(1.05);
+        }
+
+        .food-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #06D6A0;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(6, 214, 160, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .food-details {
+            padding: 25px;
+        }
+
+        .food-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #2D2D2D;
+        }
+
+        .food-desc {
+            color: #8B5A2B;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 44px;
+            opacity: 0.9;
+        }
+
+        .food-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #FFE5D9;
+        }
+
+        .food-price {
+            font-size: 26px;
+            font-weight: 800;
+            color: #FF6B35;
+        }
+
+        .food-calories {
+            color: #8B5A2B;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            background: #FFF5EB;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .dietary-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            background: #FFF5EB;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #8B5A2B;
+            text-transform: uppercase;
+        }
+
+        .tag.vegetarian { background: #06D6A0; color: white; }
+        .tag.vegan { background: #118AB2; color: white; }
+        .tag.gluten-free { background: #FFD166; color: #8B5A2B; }
+        .tag.spicy { background: #EF476F; color: white; }
+        .tag.bestseller { background: #FF6B35; color: white; }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+
+        .quantity-display {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FF6B35;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .quantity-display.bump {
+            animation: bump 0.3s ease;
+        }
+
+        @keyframes bump {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 15px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Cart Styles */
+        .cart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .clear-cart {
+            background: #EF476F;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .clear-cart:hover {
+            background: #FF6B8B;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 71, 111, 0.3);
+        }
+
+        .cart-items {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+            padding-right: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid #E0F7FA;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            background: #F8FEFF;
+            transition: all 0.3s;
+        }
+
+        .cart-item:hover {
+            border-color: #06D6A0;
+            box-shadow: 0 8px 25px rgba(6, 214, 160, 0.1);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 800;
+            font-size: 18px;
+            color: #2D2D2D;
+        }
+
+        .cart-item-price {
+            color: #118AB2;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-item-quantity {
+            font-size: 18px;
+            font-weight: 800;
+            min-width: 30px;
+            text-align: center;
+            color: #118AB2;
+        }
+
+        .remove-item {
+            padding: 8px 16px;
+            background: #EF476F;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .remove-item:hover {
+            background: #FF6B8B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(239, 71, 111, 0.3);
+        }
+
+        .cart-summary {
+            background: linear-gradient(135deg, #E0F7FA 0%, #B2EBF2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            border: 2px solid #06D6A0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed #80DEEA;
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            padding-top: 15px;
+            border-top: 3px solid #06D6A0;
+        }
+
+        .total {
+            font-size: 32px;
+            font-weight: 800;
+            color: #118AB2;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #06D6A0 0%, #118AB2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(6, 214, 160, 0.3);
+        }
+
+        /* Payment Styles */
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 2px solid #AB47BC;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .payment-method {
+            padding: 25px;
+            border: 2px solid #E1BEE7;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .payment-method:hover {
+            border-color: #AB47BC;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(171, 71, 188, 0.1);
+        }
+
+        .payment-method.active {
+            border-color: #AB47BC;
+            background: linear-gradient(135deg, rgba(171, 71, 188, 0.05) 0%, rgba(156, 39, 176, 0.05) 100%);
+        }
+
+        .payment-method.active::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 25px;
+            height: 25px;
+            background: #AB47BC;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .payment-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .payment-title {
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #2D2D2D;
+            font-size: 18px;
+        }
+
+        .payment-desc {
+            color: #8B5A2B;
+            font-size: 14px;
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, #AB47BC 0%, #7B1FA2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-transform: uppercase;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(171, 71, 188, 0.3);
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .login-card h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #2D2D2D;
+        }
+
+        .login-card p {
+            color: #8B5A2B;
+            margin-bottom: 30px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #FFE5D9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,107,53,0.2);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 20px 30px;
+            background: white;
+            color: #2D2D2D;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+            z-index: 1000;
+            animation: slideInRight 0.3s, fadeOut 0.3s 2.7s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 6px solid #FF6B35;
+            font-weight: 600;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%) scale(0.5); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-size: 14px;
+            background: linear-gradient(135deg, #2D2D2D 0%, #3D3D3D 100%);
+            margin-top: 40px;
+            border-top: 4px solid #FF6B35;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #8B5A2B;
+        }
+
+        .empty-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #FFE5D9;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .tabs {
+                padding: 0 20px;
+            }
+            .tab-btn {
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cart-item-image {
+                margin-right: 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <h2>Welcome to SpiceHub!</h2>
+            <p>Please enter your details to continue</p>
+            <input type="text" id="userName" class="login-input" placeholder="Your Name" required>
+            <input type="tel" id="userMobile" class="login-input" placeholder="Mobile Number" pattern="[0-9]{10}" required>
+            <button class="login-btn" id="loginUserBtn">Continue</button>
+        </div>
+    </div>
+
+    <div class="container" id="mainApp" style="display: none;">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">SpiceHub</div>
+                <div class="tagline">Savor the flavor, delivered to your door</div>
+            </div>
+            <div class="header-controls">
+                <a href="admin.html" class="admin-link">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a>
+                <button class="logout-btn" id="logoutUserBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <div class="cart-indicator" id="cartIndicator">
+                    <i class="fas fa-shopping-cart"></i>
+                    Your Cart
+                    <div class="cart-count" id="cartCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="menu">
+                <i class="fas fa-utensils"></i> Menu
+            </button>
+            <button class="tab-btn" data-tab="cart">
+                <i class="fas fa-shopping-cart"></i> Cart
+            </button>
+            <button class="tab-btn" data-tab="payment">
+                <i class="fas fa-credit-card"></i> Payment
+            </button>
+        </div>
+
+        <!-- Menu Tab -->
+        <div class="tab-content active" id="menu">
+            <h2 class="section-title">Our Delicious Menu</h2>
+            <p class="section-subtitle">Choose from our wide selection of freshly prepared dishes</p>
+            
+            <div class="food-categories" id="foodCategories">
+                <button class="category-btn active" data-category="all"><i class="fas fa-fire"></i> All Dishes</button>
+                <button class="category-btn" data-category="breakfast"><i class="fas fa-sun"></i> Breakfast</button>
+                <button class="category-btn" data-category="lunch"><i class="fas fa-hamburger"></i> Lunch</button>
+                <button class="category-btn" data-category="dinner"><i class="fas fa-moon"></i> Dinner</button>
+                <button class="category-btn" data-category="snacks"><i class="fas fa-cookie-bite"></i> Snacks</button>
+                <button class="category-btn" data-category="beverages"><i class="fas fa-glass-cheers"></i> Beverages</button>
+            </div>
+            
+            <div class="food-grid" id="foodGrid"></div>
+        </div>
+
+        <!-- Cart Tab -->
+        <div class="tab-content" id="cart">
+            <div class="cart-container">
+                <div class="cart-header">
+                    <h2 class="section-title">Your Order</h2>
+                    <button class="clear-cart" id="clearCart"><i class="fas fa-trash"></i> Clear Cart</button>
+                </div>
+                <div class="cart-items" id="cartItems"></div>
+                <div class="cart-summary">
+                    <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+                    <div class="summary-row"><span>Delivery Fee</span><span id="deliveryFee">$2.99</span></div>
+                    <div class="summary-row"><span>Tax (8%)</span><span id="tax">$0.00</span></div>
+                    <div class="summary-row total"><span>Total</span><span id="total" class="total">$0.00</span></div>
+                    <button class="checkout-btn" id="checkoutBtn"><i class="fas fa-lock"></i> Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Tab -->
+        <div class="tab-content" id="payment">
+            <div class="payment-container">
+                <h2 class="section-title">Complete Your Order</h2>
+                <p class="section-subtitle">Choose your payment method</p>
+                <div class="order-summary">
+                    <h3 style="color: #AB47BC; margin-bottom: 15px;">Order Summary</h3>
+                    <div id="paymentSummary"></div>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-method active" data-method="card">
+                        <div class="payment-icon"><i class="fas fa-credit-card" style="color: #AB47BC;"></i></div>
+                        <div class="payment-title">Credit/Debit Card</div>
+                        <div class="payment-desc">Pay securely with your card</div>
+                    </div>
+                    <div class="payment-method" data-method="paypal">
+                        <div class="payment-icon"><i class="fab fa-paypal" style="color: #003087;"></i></div>
+                        <div class="payment-title">PayPal</div>
+                        <div class="payment-desc">Pay with your PayPal account</div>
+                    </div>
+                    <div class="payment-method" data-method="cash">
+                        <div class="payment-icon"><i class="fas fa-money-bill-wave" style="color: #06D6A0;"></i></div>
+                        <div class="payment-title">Cash on Delivery</div>
+                        <div class="payment-desc">Pay when you receive your order</div>
+                    </div>
+                </div>
+                <button class="pay-btn" id="payBtn"><i class="fas fa-check-circle"></i> Place Order & Pay</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2023 SpiceHub. All rights reserved.</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Savor the flavor, delivered to your door</p>
+        </div>
+    </div>
+
+    <script>
+        // Full food data (20 items)
+        let foodData = JSON.parse(localStorage.getItem('spicehubFoodData')) || [
+            { id: 1, name: "Fluffy Pancakes", description: "Stack of three buttermilk pancakes with maple syrup, fresh berries, and powdered sugar.", price: 12.99, calories: 420, category: "breakfast", image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 2, name: "Avocado Toast", description: "Sourdough toast topped with mashed avocado, cherry tomatoes, microgreens, and a sprinkle of chili flakes.", price: 10.50, calories: 320, category: "breakfast", image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan"] },
+            { id: 3, name: "Classic English Breakfast", description: "Eggs, bacon, sausages, baked beans, grilled tomatoes, mushrooms, and toast.", price: 16.99, calories: 850, category: "breakfast", image: "https://images.unsplash.com/photo-1559715745-e1b33a271c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy"] },
+            { id: 4, name: "Greek Yogurt Bowl", description: "Greek yogurt with honey, granola, mixed berries, chia seeds, and sliced almonds.", price: 9.99, calories: 280, category: "breakfast", image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "gluten-free"] },
+            { id: 5, name: "Gourmet Burger", description: "Angus beef patty with cheddar, lettuce, tomato, onion, pickles, and special sauce in a brioche bun.", price: 14.99, calories: 780, category: "lunch", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["bestseller", "spicy"] },
+            { id: 6, name: "Caesar Salad", description: "Crisp romaine lettuce with Caesar dressing, parmesan cheese, croutons, and grilled chicken.", price: 13.50, calories: 420, category: "lunch", image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["gluten-free"] },
+            { id: 7, name: "Margherita Pizza", description: "Classic pizza with tomato sauce, fresh mozzarella, basil leaves, and a drizzle of olive oil.", price: 15.99, calories: 850, category: "lunch", image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 8, name: "Chicken Wrap", description: "Grilled chicken, lettuce, tomato, cucumber, and tzatziki sauce wrapped in a warm tortilla.", price: 11.99, calories: 520, category: "lunch", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: [] },
+            { id: 9, name: "Grilled Salmon", description: "Atlantic salmon fillet grilled to perfection with lemon butter sauce, asparagus, and roasted potatoes.", price: 22.99, calories: 650, category: "dinner", image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["gluten-free", "bestseller"] },
+            { id: 10, name: "Beef Lasagna", description: "Layers of pasta, rich beef ragu, béchamel sauce, and melted mozzarella cheese.", price: 18.50, calories: 920, category: "dinner", image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy"] },
+            { id: 11, name: "Chicken Alfredo Pasta", description: "Fettuccine pasta in a creamy Alfredo sauce with grilled chicken and parmesan cheese.", price: 16.99, calories: 780, category: "dinner", image: "https://images.unsplash.com/photo-1598866594230-a7c12756260f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["bestseller"] },
+            { id: 12, name: "Vegetable Stir Fry", description: "Assorted fresh vegetables stir-fried in a savory sauce with tofu, served with jasmine rice.", price: 14.99, calories: 420, category: "dinner", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan"] },
+            { id: 13, name: "Loaded Nachos", description: "Crispy tortilla chips topped with melted cheese, jalapeños, salsa, guacamole, and sour cream.", price: 11.99, calories: 620, category: "snacks", image: "https://images.unsplash.com/photo-1611690826964-7b5d8ce98f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "spicy", "bestseller"] },
+            { id: 14, name: "Chicken Wings", description: "Crispy fried chicken wings tossed in your choice of buffalo, BBQ, or honey garlic sauce.", price: 13.50, calories: 720, category: "snacks", image: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy"] },
+            { id: 15, name: "Garlic Breadsticks", description: "Freshly baked breadsticks brushed with garlic butter and served with marinara sauce.", price: 7.99, calories: 320, category: "snacks", image: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 16, name: "Mozzarella Sticks", description: "Breaded mozzarella cheese sticks fried until golden, served with marinara sauce.", price: 8.99, calories: 480, category: "snacks", image: "https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 17, name: "Fresh Orange Juice", description: "Freshly squeezed orange juice, served chilled with a slice of orange.", price: 4.99, calories: 110, category: "beverages", image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan", "gluten-free"] },
+            { id: 18, name: "Iced Caramel Macchiato", description: "Espresso with vanilla syrup, milk, and caramel drizzle over ice.", price: 5.99, calories: 210, category: "beverages", image: "https://images.unsplash.com/photo-1572496043145-8e5c8c11cf97?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 19, name: "Berry Smoothie", description: "Blend of strawberries, blueberries, raspberries, banana, and Greek yogurt.", price: 6.50, calories: 180, category: "beverages", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "gluten-free"] },
+            { id: 20, name: "Craft Lemonade", description: "Homemade lemonade with fresh lemon juice, mint leaves, and a touch of honey.", price: 4.50, calories: 120, category: "beverages", image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan", "gluten-free"] }
+        ];
+
+        let orders = JSON.parse(localStorage.getItem('spicehubOrders')) || [];
+        let cart = JSON.parse(localStorage.getItem('spicehubCart')) || [];
+        let selectedPaymentMethod = 'card';
+        let currentUser = JSON.parse(localStorage.getItem('spicehubUser')) || null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (currentUser) {
+                // User already logged in
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                renderFoodItems();
+                updateCartCount();
+                setupEventListeners();
+                loadCartItems();
+                updateCartSummary();
+                document.querySelector(`.payment-method[data-method="${selectedPaymentMethod}"]`).classList.add('active');
+            } else {
+                document.getElementById('loginOverlay').style.display = 'flex';
+                document.getElementById('mainApp').style.display = 'none';
+            }
+        });
+
+        // Login button
+        document.getElementById('loginUserBtn').addEventListener('click', function() {
+            const name = document.getElementById('userName').value.trim();
+            const mobile = document.getElementById('userMobile').value.trim();
+            if (name === '' || mobile === '') {
+                showNotification('Please enter both name and mobile number', 'error');
+                return;
+            }
+            if (!/^\d{10}$/.test(mobile)) {
+                showNotification('Mobile number must be 10 digits', 'error');
+                return;
+            }
+            currentUser = { name, mobile };
+            localStorage.setItem('spicehubUser', JSON.stringify(currentUser));
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            renderFoodItems();
+            updateCartCount();
+            setupEventListeners();
+            loadCartItems();
+            updateCartSummary();
+            document.querySelector(`.payment-method[data-method="${selectedPaymentMethod}"]`).classList.add('active');
+            showNotification(`Welcome, ${name}!`, 'success');
+        });
+
+        // Logout button
+        document.getElementById('logoutUserBtn').addEventListener('click', function() {
+            localStorage.removeItem('spicehubUser');
+            currentUser = null;
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            // Clear any user-specific data if needed
+        });
+
+        // All other functions (renderFoodItems, addToCart, etc.) remain the same,
+        // but we need to modify processPayment to include customer details.
+
+        function renderFoodItems(category = 'all') {
+            const grid = document.getElementById('foodGrid');
+            grid.innerHTML = '';
+            const filtered = category === 'all' ? foodData : foodData.filter(item => item.category === category);
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="empty-state"><div class="empty-icon"><i class="fas fa-utensils"></i></div><h3>No items found</h3></div>`;
+                return;
+            }
+            filtered.forEach(item => {
+                const cartItem = cart.find(ci => ci.id === item.id);
+                const qty = cartItem ? cartItem.quantity : 0;
+                const tagsHtml = item.tags.map(t => `<span class="tag ${t}">${t.replace('-',' ')}</span>`).join('');
+                const card = document.createElement('div');
+                card.className = 'food-card';
+                card.innerHTML = `
+                    ${item.tags.includes('bestseller') ? '<div class="food-badge">Bestseller</div>' : ''}
+                    <div class="food-img"><img src="${item.image}" alt="${item.name}" loading="lazy"></div>
+                    <div class="food-details">
+                        <h3 class="food-title">${item.name}</h3>
+                        <p class="food-desc">${item.description}</p>
+                        ${tagsHtml ? `<div class="dietary-tags">${tagsHtml}</div>` : ''}
+                        <div class="food-info">
+                            <div class="food-price">$${item.price.toFixed(2)}</div>
+                            <div class="food-calories"><i class="fas fa-fire"></i> ${item.calories} cal</div>
+                        </div>
+                        ${qty > 0 ? `
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" data-id="${item.id}" data-action="decrease"><i class="fas fa-minus"></i></button>
+                                <div class="quantity-display" id="qty-${item.id}">${qty}</div>
+                                <button class="quantity-btn" data-id="${item.id}" data-action="increase"><i class="fas fa-plus"></i></button>
+                            </div>
+                        ` : ''}
+                        <button class="add-to-cart" data-id="${item.id}">${qty > 0 ? '<i class="fas fa-check"></i> Update Cart' : '<i class="fas fa-plus"></i> Add to Cart'}</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            attachFoodEventListeners();
+        }
+
+        function attachFoodEventListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(btn => btn.addEventListener('click', e => addToCart(parseInt(e.currentTarget.dataset.id))));
+            document.querySelectorAll('.quantity-btn').forEach(btn => btn.addEventListener('click', e => {
+                const id = parseInt(e.currentTarget.dataset.id);
+                const action = e.currentTarget.dataset.action;
+                updateQuantity(id, action === 'increase' ? 1 : -1);
+            }));
+        }
+
+        function addToCart(id) {
+            const item = foodData.find(f => f.id === id);
+            if (!item) return;
+            const existing = cart.find(ci => ci.id === id);
+            if (existing) existing.quantity++;
+            else cart.push({ id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 });
+            localStorage.setItem('spicehubCart', JSON.stringify(cart));
+            updateCartCount();
+            loadCartItems();
+            updateCartSummary();
+            renderFoodItems(document.querySelector('.category-btn.active').dataset.category);
+            document.getElementById('cartCount').classList.add('bounce');
+            setTimeout(() => document.getElementById('cartCount').classList.remove('bounce'), 600);
+            showNotification(`Added ${item.name} to cart!`, 'success');
+        }
+
+        function updateQuantity(id, change) {
+            const item = cart.find(ci => ci.id === id);
+            if (!item) return;
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(ci => ci.id !== id);
+            }
+            localStorage.setItem('spicehubCart', JSON.stringify(cart));
+            updateCartCount();
+            loadCartItems();
+            updateCartSummary();
+            renderFoodItems(document.querySelector('.category-btn.active').dataset.category);
+            const qtyDisplay = document.getElementById(`qty-${id}`);
+            if (qtyDisplay) { qtyDisplay.classList.add('bump'); setTimeout(() => qtyDisplay.classList.remove('bump'), 300); }
+        }
+
+        function removeFromCart(id) {
+            const item = cart.find(ci => ci.id === id);
+            if (!item) return;
+            cart = cart.filter(ci => ci.id !== id);
+            localStorage.setItem('spicehubCart', JSON.stringify(cart));
+            updateCartCount();
+            loadCartItems();
+            updateCartSummary();
+            renderFoodItems(document.querySelector('.category-btn.active').dataset.category);
+            showNotification(`${item.name} removed from cart`, 'info');
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            cart = [];
+            localStorage.setItem('spicehubCart', JSON.stringify(cart));
+            updateCartCount();
+            loadCartItems();
+            updateCartSummary();
+            renderFoodItems(document.querySelector('.category-btn.active').dataset.category);
+            showNotification('Cart cleared!', 'info');
+        }
+
+        function updateCartCount() {
+            const total = cart.reduce((sum, i) => sum + i.quantity, 0);
+            document.getElementById('cartCount').textContent = total;
+        }
+
+        function loadCartItems() {
+            const container = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-icon"><i class="fas fa-shopping-cart"></i></div><h3>Your cart is empty</h3><p>Add some delicious items from our menu!</p></div>`;
+                return;
+            }
+            container.innerHTML = '';
+            cart.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'cart-item';
+                el.innerHTML = `
+                    <div class="cart-item-image"><img src="${item.image}" alt="${item.name}"></div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" data-id="${item.id}" data-change="-1">-</button>
+                        <div class="cart-item-quantity" id="cart-qty-${item.id}">${item.quantity}</div>
+                        <button class="quantity-btn" data-id="${item.id}" data-change="1">+</button>
+                        <button class="remove-item" data-id="${item.id}"><i class="fas fa-times"></i> Remove</button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+            document.querySelectorAll('.cart-item .quantity-btn').forEach(btn => btn.addEventListener('click', e => {
+                const id = parseInt(e.currentTarget.dataset.id);
+                const change = parseInt(e.currentTarget.dataset.change);
+                updateQuantity(id, change);
+                const qtySpan = document.getElementById(`cart-qty-${id}`);
+                if (qtySpan) { qtySpan.classList.add('bump'); setTimeout(() => qtySpan.classList.remove('bump'), 300); }
+            }));
+            document.querySelectorAll('.remove-item').forEach(btn => btn.addEventListener('click', e => removeFromCart(parseInt(e.currentTarget.dataset.id))));
+        }
+
+        function updateCartSummary() {
+            const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+            const delivery = 2.99;
+            const tax = subtotal * 0.08;
+            const total = subtotal + delivery + tax;
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('deliveryFee').textContent = `$${delivery.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updatePaymentSummary() {
+            const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+            const delivery = 2.99;
+            const tax = subtotal * 0.08;
+            const total = subtotal + delivery + tax;
+            let itemsHtml = '';
+            cart.forEach(i => itemsHtml += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${i.name} x${i.quantity}</span><span>$${(i.price * i.quantity).toFixed(2)}</span></div>`);
+            document.getElementById('paymentSummary').innerHTML = itemsHtml + `<div style="display:flex; justify-content:space-between; margin-top:15px; padding-top:15px; border-top:1px dashed #AB47BC;"><strong>Total</strong><strong>$${total.toFixed(2)}</strong></div>`;
+        }
+
+        function processPayment() {
+            if (cart.length === 0) { showNotification('Cart empty!', 'error'); return; }
+            if (!currentUser) {
+                showNotification('Please login first', 'error');
+                return;
+            }
+            const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+            const total = subtotal + 2.99 + subtotal * 0.08;
+            showNotification(`Processing ${selectedPaymentMethod.toUpperCase()} payment...`, 'info');
+            const payBtn = document.getElementById('payBtn');
+            payBtn.disabled = true;
+            payBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
+            setTimeout(() => {
+                const order = {
+                    id: orders.length + 1,
+                    items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity })),
+                    total: total,
+                    status: 'pending',
+                    date: new Date().toISOString(),
+                    customer: currentUser.name,
+                    mobile: currentUser.mobile,
+                    paymentMethod: selectedPaymentMethod
+                };
+                orders.push(order);
+                localStorage.setItem('spicehubOrders', JSON.stringify(orders));
+                cart = [];
+                localStorage.setItem('spicehubCart', JSON.stringify(cart));
+                updateCartCount();
+                loadCartItems();
+                updateCartSummary();
+                renderFoodItems(document.querySelector('.category-btn.active').dataset.category);
+                payBtn.disabled = false;
+                payBtn.innerHTML = `<i class="fas fa-check-circle"></i> Place Order & Pay`;
+                showNotification('Payment successful! Order delivered in 30-45 min.', 'success');
+                createConfetti();
+                setTimeout(() => {
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelector('.tab-btn[data-tab="menu"]').classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById('menu').classList.add('active');
+                }, 2000);
+            }, 2000);
+        }
+
+        function createConfetti() {
+            const colors = ['#FF6B35', '#06D6A0', '#118AB2', '#FFD166', '#AB47BC', '#EF476F'];
+            for (let i = 0; i < 100; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.width = Math.random() * 10 + 5 + 'px';
+                conf.style.height = Math.random() * 10 + 5 + 'px';
+                conf.style.animation = `confettiRain ${Math.random() * 3 + 2}s linear forwards`;
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 5000);
+            }
+        }
+
+        function showNotification(msg, type) {
+            document.querySelectorAll('.notification').forEach(n => n.remove());
+            const n = document.createElement('div');
+            n.className = 'notification';
+            let icon = 'fas fa-info-circle', color = '#FF6B35';
+            if (type === 'success') { icon = 'fas fa-check-circle'; color = '#06D6A0'; }
+            else if (type === 'error') { icon = 'fas fa-exclamation-circle'; color = '#EF476F'; }
+            else if (type === 'info') { icon = 'fas fa-info-circle'; color = '#118AB2'; }
+            n.innerHTML = `<div class="notification-icon"><i class="${icon}"></i></div><div>${msg}</div>`;
+            n.style.borderLeftColor = color;
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 3000);
+        }
+
+        function setupEventListeners() {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', function() {
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(tab).classList.add('active');
+                if (tab === 'payment') updatePaymentSummary();
+            }));
+            document.querySelectorAll('.category-btn').forEach(btn => btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => { b.classList.remove('active'); b.querySelector('i').style.animation = ''; });
+                this.classList.add('active');
+                this.querySelector('i').style.animation = 'pulse 2s infinite';
+                renderFoodItems(this.dataset.category);
+            }));
+            document.getElementById('cartIndicator').addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.tab-btn[data-tab="cart"]').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('cart').classList.add('active');
+            });
+            document.getElementById('clearCart').addEventListener('click', clearCart);
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                if (cart.length === 0) { showNotification('Cart empty!', 'error'); return; }
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.tab-btn[data-tab="payment"]').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('payment').classList.add('active');
+                updatePaymentSummary();
+            });
+            document.querySelectorAll('.payment-method').forEach(m => m.addEventListener('click', function() {
+                selectedPaymentMethod = this.dataset.method;
+                document.querySelectorAll('.payment-method').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            }));
+            document.getElementById('payBtn').addEventListener('click', processPayment);
+        }
+
+        // Add confetti style dynamically
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .confetti {
+                position: fixed;
+                top: 0;
+                opacity: 0;
+                z-index: 9999;
+                pointer-events: none;
+            }
+            @keyframes confettiRain {
+                0% { opacity: 1; top: -100px; transform: rotate(0deg); }
+                100% { opacity: 0; top: 100vh; transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
