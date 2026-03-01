@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpiceHub | Order Food</title>
+    <title>Smart Customer Ordering System</title>
     <style>
         /* ========== All previous styles remain unchanged ========== */
         * {
@@ -79,27 +79,6 @@
             display: flex;
             align-items: center;
             gap: 20px;
-        }
-
-        .admin-link {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-            text-decoration: none;
-        }
-
-        .admin-link:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
         }
 
         .logout-btn {
@@ -417,18 +396,6 @@
             font-size: 26px;
             font-weight: 800;
             color: #FF6B35;
-        }
-
-        .food-calories {
-            color: #8B5A2B;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-            background: #FFF5EB;
-            padding: 4px 12px;
-            border-radius: 20px;
         }
 
         .dietary-tags {
@@ -991,7 +958,7 @@
     <!-- Login Overlay -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-card">
-            <h2>Welcome to SpiceHub!</h2>
+            <h2>Welcome to Smart Customer Ordering System!</h2>
             <p>Please enter your details to continue</p>
             <input type="text" id="userName" class="login-input" placeholder="Your Name" required>
             <input type="tel" id="userMobile" class="login-input" placeholder="Mobile Number" pattern="[0-9]{10}" required>
@@ -1003,13 +970,10 @@
         <!-- Header -->
         <div class="header">
             <div class="brand">
-                <div class="logo">SpiceHub</div>
-                <div class="tagline">Savor the flavor, delivered to your door</div>
+                <div class="logo">Smart Ordering</div>
+                <div class="tagline">Authentic Indian flavours, at your table</div>
             </div>
             <div class="header-controls">
-                <a href="admin.html" class="admin-link">
-                    <i class="fas fa-user-shield"></i> Admin
-                </a>
                 <button class="logout-btn" id="logoutUserBtn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
@@ -1036,7 +1000,7 @@
 
         <!-- Menu Tab -->
         <div class="tab-content active" id="menu">
-            <h2 class="section-title">Our Delicious Menu</h2>
+            <h2 class="section-title">Our Indian Delicacies</h2>
             <p class="section-subtitle">Choose from our wide selection of freshly prepared dishes</p>
             
             <div class="food-categories" id="foodCategories">
@@ -1060,10 +1024,10 @@
                 </div>
                 <div class="cart-items" id="cartItems"></div>
                 <div class="cart-summary">
-                    <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
-                    <div class="summary-row"><span>Delivery Fee</span><span id="deliveryFee">$2.99</span></div>
-                    <div class="summary-row"><span>Tax (8%)</span><span id="tax">$0.00</span></div>
-                    <div class="summary-row total"><span>Total</span><span id="total" class="total">$0.00</span></div>
+                    <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
+                    <div class="summary-row"><span>Delivery Fee</span><span id="deliveryFee">₹2.99</span></div>
+                    <div class="summary-row"><span>Tax (8%)</span><span id="tax">₹0.00</span></div>
+                    <div class="summary-row total"><span>Total</span><span id="total" class="total">₹0.00</span></div>
                     <button class="checkout-btn" id="checkoutBtn"><i class="fas fa-lock"></i> Proceed to Checkout</button>
                 </div>
             </div>
@@ -1115,34 +1079,34 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>© 2023 SpiceHub. All rights reserved.</p>
-            <p style="margin-top: 10px; opacity: 0.8;">Savor the flavor, delivered to your door</p>
+            <p>© 2025 Smart Customer Ordering System. All rights reserved.</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Authentic Indian flavours, delivered to your table</p>
         </div>
     </div>
 
     <script>
-        // Full food data (20 items) – same as before
+        // Full Indian food data (no calories)
         let foodData = JSON.parse(localStorage.getItem('spicehubFoodData')) || [
-            { id: 1, name: "Fluffy Pancakes", description: "Stack of three buttermilk pancakes with maple syrup, fresh berries, and powdered sugar.", price: 12.99, calories: 420, category: "breakfast", image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
-            { id: 2, name: "Avocado Toast", description: "Sourdough toast topped with mashed avocado, cherry tomatoes, microgreens, and a sprinkle of chili flakes.", price: 10.50, calories: 320, category: "breakfast", image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan"] },
-            { id: 3, name: "Classic English Breakfast", description: "Eggs, bacon, sausages, baked beans, grilled tomatoes, mushrooms, and toast.", price: 16.99, calories: 850, category: "breakfast", image: "https://images.unsplash.com/photo-1559715745-e1b33a271c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy"] },
-            { id: 4, name: "Greek Yogurt Bowl", description: "Greek yogurt with honey, granola, mixed berries, chia seeds, and sliced almonds.", price: 9.99, calories: 280, category: "breakfast", image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "gluten-free"] },
-            { id: 5, name: "Gourmet Burger", description: "Angus beef patty with cheddar, lettuce, tomato, onion, pickles, and special sauce in a brioche bun.", price: 14.99, calories: 780, category: "lunch", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["bestseller", "spicy"] },
-            { id: 6, name: "Caesar Salad", description: "Crisp romaine lettuce with Caesar dressing, parmesan cheese, croutons, and grilled chicken.", price: 13.50, calories: 420, category: "lunch", image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["gluten-free"] },
-            { id: 7, name: "Margherita Pizza", description: "Classic pizza with tomato sauce, fresh mozzarella, basil leaves, and a drizzle of olive oil.", price: 15.99, calories: 850, category: "lunch", image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
-            { id: 8, name: "Chicken Wrap", description: "Grilled chicken, lettuce, tomato, cucumber, and tzatziki sauce wrapped in a warm tortilla.", price: 11.99, calories: 520, category: "lunch", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: [] },
-            { id: 9, name: "Grilled Salmon", description: "Atlantic salmon fillet grilled to perfection with lemon butter sauce, asparagus, and roasted potatoes.", price: 22.99, calories: 650, category: "dinner", image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["gluten-free", "bestseller"] },
-            { id: 10, name: "Beef Lasagna", description: "Layers of pasta, rich beef ragu, béchamel sauce, and melted mozzarella cheese.", price: 18.50, calories: 920, category: "dinner", image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy"] },
-            { id: 11, name: "Chicken Alfredo Pasta", description: "Fettuccine pasta in a creamy Alfredo sauce with grilled chicken and parmesan cheese.", price: 16.99, calories: 780, category: "dinner", image: "https://images.unsplash.com/photo-1598866594230-a7c12756260f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["bestseller"] },
-            { id: 12, name: "Vegetable Stir Fry", description: "Assorted fresh vegetables stir-fried in a savory sauce with tofu, served with jasmine rice.", price: 14.99, calories: 420, category: "dinner", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan"] },
-            { id: 13, name: "Loaded Nachos", description: "Crispy tortilla chips topped with melted cheese, jalapeños, salsa, guacamole, and sour cream.", price: 11.99, calories: 620, category: "snacks", image: "https://images.unsplash.com/photo-1611690826964-7b5d8ce98f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "spicy", "bestseller"] },
-            { id: 14, name: "Chicken Wings", description: "Crispy fried chicken wings tossed in your choice of buffalo, BBQ, or honey garlic sauce.", price: 13.50, calories: 720, category: "snacks", image: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy"] },
-            { id: 15, name: "Garlic Breadsticks", description: "Freshly baked breadsticks brushed with garlic butter and served with marinara sauce.", price: 7.99, calories: 320, category: "snacks", image: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
-            { id: 16, name: "Mozzarella Sticks", description: "Breaded mozzarella cheese sticks fried until golden, served with marinara sauce.", price: 8.99, calories: 480, category: "snacks", image: "https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
-            { id: 17, name: "Fresh Orange Juice", description: "Freshly squeezed orange juice, served chilled with a slice of orange.", price: 4.99, calories: 110, category: "beverages", image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan", "gluten-free"] },
-            { id: 18, name: "Iced Caramel Macchiato", description: "Espresso with vanilla syrup, milk, and caramel drizzle over ice.", price: 5.99, calories: 210, category: "beverages", image: "https://images.unsplash.com/photo-1572496043145-8e5c8c11cf97?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
-            { id: 19, name: "Berry Smoothie", description: "Blend of strawberries, blueberries, raspberries, banana, and Greek yogurt.", price: 6.50, calories: 180, category: "beverages", image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "gluten-free"] },
-            { id: 20, name: "Craft Lemonade", description: "Homemade lemonade with fresh lemon juice, mint leaves, and a touch of honey.", price: 4.50, calories: 120, category: "beverages", image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "vegan", "gluten-free"] }
+            { id: 1, name: "Masala Dosa", description: "Crispy rice crepe filled with spiced potatoes, served with coconut chutney and sambar.", price: 120, category: "breakfast", image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 2, name: "Chole Bhature", description: "Spicy chickpea curry served with deep-fried bread, pickled onions and green chutney.", price: 150, category: "breakfast", image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "spicy"] },
+            { id: 3, name: "Pav Bhaji", description: "Buttered bread rolls served with a mix of mashed vegetables cooked in spices.", price: 140, category: "lunch", image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 4, name: "Hyderabadi Biryani", description: "Aromatic basmati rice layered with marinated meat, cooked with saffron and spices.", price: 280, category: "lunch", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy", "bestseller"] },
+            { id: 5, name: "Paneer Butter Masala", description: "Cottage cheese cubes in a creamy tomato gravy, flavoured with butter and kasuri methi.", price: 220, category: "dinner", image: "https://images.unsplash.com/photo-1645112411342-4665e5a9e7e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 6, name: "Butter Chicken", description: "Tender chicken pieces cooked in a rich, buttery tomato gravy.", price: 260, category: "dinner", image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["bestseller"] },
+            { id: 7, name: "Samosa", description: "Crispy pastry stuffed with spiced potatoes and peas, served with tamarind chutney.", price: 30, category: "snacks", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 8, name: "Aloo Tikki", description: "Fried potato patties seasoned with spices, served with chickpea curry and chutneys.", price: 70, category: "snacks", image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 9, name: "Mango Lassi", description: "Refreshing yogurt drink blended with sweet mango pulp and a hint of cardamom.", price: 60, category: "beverages", image: "https://images.unsplash.com/photo-1626200419199-391ae4be7e5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 10, name: "Masala Chai", description: "Traditional Indian tea brewed with aromatic spices and milk.", price: 25, category: "beverages", image: "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 11, name: "Idli Sambar", description: "Soft rice cakes served with lentil soup and coconut chutney.", price: 90, category: "breakfast", image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 12, name: "Vada Pav", description: "Spiced potato fritter in a bun, served with green and tamarind chutneys.", price: 25, category: "snacks", image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "spicy"] },
+            { id: 13, name: "Palak Paneer", description: "Cottage cheese cubes in a smooth spinach gravy, seasoned with garlic and garam masala.", price: 200, category: "dinner", image: "https://images.unsplash.com/photo-1645112411342-4665e5a9e7e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 14, name: "Tandoori Chicken", description: "Chicken marinated in yogurt and spices, grilled in a clay oven.", price: 240, category: "dinner", image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["spicy", "bestseller"] },
+            { id: 15, name: "Gulab Jamun", description: "Deep-fried milk solids soaked in rose-flavoured sugar syrup.", price: 50, category: "snacks", image: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "bestseller"] },
+            { id: 16, name: "Rasgulla", description: "Spongy cottage cheese balls in light sugar syrup.", price: 50, category: "snacks", image: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 17, name: "Pani Puri", description: "Crisp hollow puri filled with spicy mint water, tamarind chutney and potatoes.", price: 40, category: "snacks", image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian", "spicy", "bestseller"] },
+            { id: 18, name: "Bhel Puri", description: "Puffed rice mixed with vegetables, tamarind sauce and crispy sev.", price: 50, category: "snacks", image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 19, name: "Badam Milk", description: "Rich almond-flavoured milk, thickened and served chilled or hot.", price: 70, category: "beverages", image: "https://images.unsplash.com/photo-1626200419199-391ae4be7e5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] },
+            { id: 20, name: "Jaljeera", description: "Refreshing cumin and mint cooler, tangy and spicy.", price: 30, category: "beverages", image: "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", tags: ["vegetarian"] }
         ];
 
         let orders = JSON.parse(localStorage.getItem('spicehubOrders')) || [];
@@ -1219,8 +1183,7 @@
                         <p class="food-desc">${item.description}</p>
                         ${tagsHtml ? `<div class="dietary-tags">${tagsHtml}</div>` : ''}
                         <div class="food-info">
-                            <div class="food-price">$${item.price.toFixed(2)}</div>
-                            <div class="food-calories"><i class="fas fa-fire"></i> ${item.calories} cal</div>
+                            <div class="food-price">₹${item.price.toFixed(2)}</div>
                         </div>
                         ${qty > 0 ? `
                             <div class="quantity-controls">
@@ -1320,7 +1283,7 @@
                     <div class="cart-item-image"><img src="${item.image}" alt="${item.name}"></div>
                     <div class="cart-item-info">
                         <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <div class="cart-item-price">₹${(item.price * item.quantity).toFixed(2)}</div>
                     </div>
                     <div class="cart-item-controls">
                         <button class="quantity-btn" data-id="${item.id}" data-change="-1">-</button>
@@ -1346,10 +1309,10 @@
             const delivery = 2.99;
             const tax = subtotal * 0.08;
             const total = subtotal + delivery + tax;
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('deliveryFee').textContent = `$${delivery.toFixed(2)}`;
-            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('deliveryFee').textContent = `₹${delivery.toFixed(2)}`;
+            document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
         }
 
         function updatePaymentSummary() {
@@ -1358,8 +1321,8 @@
             const tax = subtotal * 0.08;
             const total = subtotal + delivery + tax;
             let itemsHtml = '';
-            cart.forEach(i => itemsHtml += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${i.name} x${i.quantity}</span><span>$${(i.price * i.quantity).toFixed(2)}</span></div>`);
-            document.getElementById('paymentSummary').innerHTML = itemsHtml + `<div style="display:flex; justify-content:space-between; margin-top:15px; padding-top:15px; border-top:1px dashed #AB47BC;"><strong>Total</strong><strong>$${total.toFixed(2)}</strong></div>`;
+            cart.forEach(i => itemsHtml += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${i.name} x${i.quantity}</span><span>₹${(i.price * i.quantity).toFixed(2)}</span></div>`);
+            document.getElementById('paymentSummary').innerHTML = itemsHtml + `<div style="display:flex; justify-content:space-between; margin-top:15px; padding-top:15px; border-top:1px dashed #AB47BC;"><strong>Total</strong><strong>₹${total.toFixed(2)}</strong></div>`;
         }
 
         function processPayment() {
@@ -1389,7 +1352,7 @@
                     date: new Date().toISOString(),
                     customer: currentUser.name,
                     mobile: currentUser.mobile,
-                    table: tableSelect.value,   // <-- new field
+                    table: tableSelect.value,
                     paymentMethod: selectedPaymentMethod
                 };
                 orders.push(order);
